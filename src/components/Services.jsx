@@ -1,12 +1,16 @@
 import { services } from '../data/site'
 import Icon from './Icon'
 import Reveal from './Reveal'
+import ventasGirl from '../assets/ventas-girl.webp'
 
 export default function Services() {
   return (
-    <section id="servicios" className="bg-claro pb-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid items-center gap-14 rounded-3xl bg-white/70 p-6 ring-1 ring-azul/5 sm:p-10 lg:grid-cols-2">
+    <section id="servicios" className="grid-bg-light bg-claro pb-24">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
+        {/* manchas de color detrás para que se note el efecto vidrio */}
+        <div className="pointer-events-none absolute -left-10 top-10 h-72 w-72 rounded-full bg-rojo/25 blur-3xl" aria-hidden />
+        <div className="pointer-events-none absolute -right-6 bottom-0 h-80 w-80 rounded-full bg-azul/25 blur-3xl" aria-hidden />
+        <div className="relative grid items-center gap-14 rounded-3xl border border-white/60 bg-white/30 p-6 shadow-[0_8px_40px_-12px_rgb(28_35_63/.25)] backdrop-blur-xl sm:p-10 lg:grid-cols-2">
           <div>
             <Reveal anim="blur">
             <p className="font-mono text-xs tracking-[0.3em] text-rojo uppercase">// servicios</p>
@@ -34,55 +38,15 @@ export default function Services() {
           </div>
 
           <Reveal anim="right" delay={200}>
-            <Dashboard />
+            <img
+              src={ventasGirl}
+              alt="Clienta revisando el crecimiento de sus ventas en su web"
+              loading="lazy"
+              className="mx-auto w-full max-w-lg drop-shadow-[0_20px_30px_rgb(28_35_63/.18)]"
+            />
           </Reveal>
         </div>
       </div>
     </section>
-  )
-}
-
-function Dashboard() {
-  return (
-    <div className="relative">
-      <div className="rotate-2 rounded-2xl bg-azul p-4 shadow-2xl">
-        <div className="grid grid-cols-[70px_1fr] gap-3 rounded-xl bg-claro p-3 sm:grid-cols-[90px_1fr]">
-          <div className="space-y-2 rounded-lg bg-white p-2 font-mono text-[9px] text-azul/60">
-            <p className="font-bold text-azul">panel</p>
-            {['inicio', 'ventas', 'clientes', 'stock', 'reportes'].map((t, i) => (
-              <p key={t} className={i === 1 ? 'rounded bg-rojo px-1 text-white' : ''}>{t}</p>
-            ))}
-          </div>
-          <div className="space-y-3">
-            <div className="grid grid-cols-2 gap-2 font-mono">
-              <div className="rounded-lg bg-white p-2">
-                <p className="text-[9px] text-azul/50">ventas/mes</p>
-                <p className="text-base font-bold">S/ 24,850</p>
-              </div>
-              <div className="rounded-lg bg-white p-2">
-                <p className="text-[9px] text-azul/50">pedidos</p>
-                <p className="text-base font-bold text-rojo">+38%</p>
-              </div>
-            </div>
-            <div className="flex h-28 items-end gap-1.5 rounded-lg bg-white p-3">
-              {[35, 55, 40, 70, 50, 85, 65, 95].map((h, i) => (
-                <div key={i} className={`flex-1 rounded-sm ${i === 7 ? 'bg-rojo' : 'bg-azul/80'}`} style={{ height: `${h}%` }} />
-              ))}
-            </div>
-            <div className="space-y-1.5 rounded-lg bg-white p-2">
-              {[80, 60, 45].map((w, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-rojo" />
-                  <span className="h-1.5 rounded-full bg-azul/20" style={{ width: `${w}%` }} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="absolute -bottom-5 -left-3 rounded-lg bg-azul-900 px-3 py-2 font-mono text-[11px] text-claro shadow-xl sm:-left-6">
-        <span className="text-rojo">$</span> deploy --prod <span className="text-emerald-400">✓ ok</span>
-      </div>
-    </div>
   )
 }

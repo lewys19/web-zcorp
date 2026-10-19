@@ -39,13 +39,13 @@ export default function Loader() {
       role="status"
       aria-label={`Cargando ${pct}%`}
     >
-      <div className="w-full max-w-md">
-        <div className="flex items-center gap-3">
+      <div className="w-[min(80vw,22rem)]">
+        <div className="flex items-center justify-center gap-3">
           <img src={logo} alt="" className="h-9 w-9" />
           <span className="text-lg font-extrabold">Z-CORP</span>
         </div>
 
-        <ul className="mt-8 h-32 space-y-1 text-xs text-claro/50">
+        <ul className="mx-auto mt-8 h-32 w-fit space-y-1 text-xs text-claro/50">
           {logs.map((l) => (
             <li key={l}>
               <span className="text-emerald-400">[ok]</span> {l}
@@ -53,15 +53,13 @@ export default function Loader() {
           ))}
         </ul>
 
-        <div className="flex items-end justify-between text-sm">
-          <span>
-            <span className="text-rojo">&gt;</span> loading<span className="loading-dots" />
-          </span>
-          <span className="text-2xl font-bold tabular-nums">{pct}%</span>
-        </div>
+        <p className="text-center text-sm">
+          <span className="text-rojo">&gt;</span> loading<span className="loading-dots inline-block w-6 text-left" />
+        </p>
         <div className="mt-3 h-1 overflow-hidden rounded-full bg-claro/10">
           <div className="h-full bg-rojo shadow-[0_0_12px_var(--color-rojo)] transition-[width] duration-500 ease-out" style={{ width: `${pct}%` }} />
         </div>
+        <p className="mt-3 text-center text-2xl font-bold tabular-nums">{pct}%</p>
       </div>
     </div>
   )

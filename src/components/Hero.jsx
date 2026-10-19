@@ -13,7 +13,7 @@ export default function Hero() {
         <div>
           <Reveal anim="blur">
             <p className="font-mono text-sm text-rojo">
-              <span className="text-claro/50">root@zcorp:~$</span> ./iniciar --proyecto
+              <span className="text-claro/50">Agencia de Desarrollo </span> de Software
             </p>
           </Reveal>
 
@@ -21,7 +21,7 @@ export default function Hero() {
           <h1 className="glitch mt-6 text-4xl font-semibold leading-[1.1] tracking-tight transition sm:text-5xl lg:text-6xl">
             Construimos
             <br />
-            <span className="font-mono font-bold text-rojo">
+            <span className="font-mono text-[0.88em] font-bold text-rojo sm:text-[1em]">
               {word}
               <span className="caret">_</span>
             </span>
@@ -50,7 +50,7 @@ export default function Hero() {
 
           <Reveal delay={500}>
           <dl className="mt-12 flex gap-10 font-mono">
-            {[['+40', 'proyectos'], ['24/7', 'soporte'], ['100%', 'a medida']].map(([n, l]) => (
+            {[['+20', 'proyectos'], ['24/7', 'soporte'], ['100%', 'a medida']].map(([n, l]) => (
               <div key={l}>
                 <dt className="text-2xl font-bold">{n}</dt>
                 <dd className="text-xs uppercase tracking-widest text-claro/50">{l}</dd>

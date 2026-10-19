@@ -17,6 +17,8 @@ export default function Contact() {
     const form = e.target
     const data = Object.fromEntries(new FormData(form))
     if (data._honey) return // bot
+    delete data._honey
+    delete data.acepto
 
     setStatus('sending')
     try {
@@ -25,6 +27,7 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           ...data,
+          acepta_privacidad: `Sí — ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })}`,
           _subject: `Nuevo proyecto web: ${data.nombre} — ${data.servicio || 'consulta'}`,
           _replyto: data.correo,
           _template: 'table',
@@ -121,6 +124,15 @@ export default function Contact() {
             <label className="block">
               <span className="mb-1.5 block font-mono text-xs text-claro/60">mensaje</span>
               <textarea required name="mensaje" rows="4" className={field} placeholder="¿Qué necesitas construir?" />
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-claro/70">
+              <input required type="checkbox" name="acepto" className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-rojo" />
+              <span>
+                He leído la{' '}
+                <a href="#/privacidad" target="_blank" rel="noopener" className="text-claro underline hover:text-rojo">Política de Privacidad</a>{' '}
+                y autorizo a {brand.name} a tratar mis datos personales para atender mi solicitud, conforme a la Ley N.° 29733.
+              </span>
             </label>
           </div>
 

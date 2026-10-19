@@ -1,6 +1,9 @@
 import { clients } from '../data/site'
 import Reveal from './Reveal'
 
+// Cada mitad de la cinta repite la lista: así siempre es más ancha que la pantalla y no queda vacío.
+const strip = [...clients, ...clients, ...clients]
+
 export default function Clients() {
   return (
     <section className="overflow-hidden border-y border-azul/10 bg-claro py-12">
@@ -9,8 +12,8 @@ export default function Clients() {
       <div className="animate-marquee-slow flex w-max">
         {[0, 1].map((dup) => (
           <div key={dup} className="flex shrink-0 items-center gap-16 pr-16" aria-hidden={dup === 1}>
-            {clients.map((c) => (
-              <span key={c} className="font-mono text-2xl font-extrabold tracking-tight text-azul/40 transition hover:text-azul">
+            {strip.map((c, i) => (
+              <span key={i} className="font-mono text-2xl font-extrabold tracking-tight text-azul/40 transition hover:text-azul">
                 {c}
               </span>
             ))}

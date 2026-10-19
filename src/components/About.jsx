@@ -15,10 +15,15 @@ export default function About() {
           </Reveal>
           <Reveal anim="right" delay={150}>
           <p className="text-lg leading-relaxed text-azul/80">
-            Somos un equipo de <strong className="text-azul">ingenieros de software</strong> que convierte procesos
-            en sistemas. No solo desarrollamos: también <strong className="text-azul">vendemos programas listos</strong>,
-            los ponemos en marcha en tu empresa y{' '}
-            <span className="text-azul/50">los implementamos y actualizamos para que tu tecnología nunca se quede atrás.</span>
+            
+            Somos un equipo de profesionales que nos asociamos para aplicar nuestros conocimientos y resolver diferentes problemas en el sector TI. Nuestro objetivo es optimizar procesos, asesorar empresas y desarrollar soluciones tecnológicas que generen impacto real.
+
+Iniciamos hace 2 años, en 2024, y desde entonces nuestro foco principal ha sido el desarrollo de software y la automatización con inteligencia artificial. 
+
+Contamos con un proceso de trabajo estructurado que garantiza resultados óptimos. Sabemos que la inteligencia artificial está generando mucha competencia, pero estamos seguros de que nuestro diferenciador está en la arquitectura sólida y las buenas metodologías que aplicamos.
+<hr/>
+
+            <span className="text-azul/50">Confía en nosotros: estaremos contentos y preparados para atenderte.</span>
           </p>
           </Reveal>
         </div>
@@ -29,9 +34,12 @@ export default function About() {
           {team.map((m, i) => (
             <Reveal key={m.name} anim="zoom" delay={i * 150} className="group text-center">
               <div className="relative mx-auto h-36 w-36">
-                <div className="absolute inset-0 rounded-full bg-rojo transition group-hover:scale-105" />
-                <div className="absolute inset-0 grid place-items-center font-mono text-3xl font-extrabold text-claro">
-                  {m.initials}
+                <div className="absolute inset-0 overflow-hidden rounded-full bg-rojo ring-4 ring-rojo transition group-hover:scale-105">
+                  {m.photo ? (
+                    <img src={m.photo} alt={m.name} loading="lazy" className="h-full w-full object-cover grayscale-[30%] transition duration-500 group-hover:grayscale-0" />
+                  ) : (
+                    <span className="grid h-full place-items-center font-mono text-3xl font-extrabold text-claro">{m.initials}</span>
+                  )}
                 </div>
                 <div className="absolute -inset-2 rounded-full border border-dashed border-azul/30 transition duration-700 group-hover:rotate-90" />
               </div>

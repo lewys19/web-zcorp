@@ -1,7 +1,15 @@
+import angelo from '../assets/team/angelo.webp'
+import jhonatan from '../assets/team/jhonatan.webp'
+import julieta from '../assets/team/julieta.webp'
+
 // Contenido de la web. Más adelante vendrá del panel administrable (API).
 
 export const brand = {
   name: 'Z-CORP',
+  // Datos legales: completar antes de publicar (Ley N.° 29733)
+  legalName: 'Z-CORP',
+  ruc: '10205544410',
+  address: 'Lima, Perú',
   email: 'resuresua@gmail.com', // también recibe los mensajes del formulario
   phone: '+51 999 002 030',
   whatsapp: '51999002030',
@@ -46,9 +54,9 @@ export const ribbonItems = [
 ]
 
 export const team = [
-  { name: 'Angelo Poma', role: 'CTO · Software Engineer', initials: 'AP' },
-  { name: 'Luis Tapia', role: 'Backend · Software Engineer', initials: 'LT' },
-  { name: 'Julieta María', role: 'Frontend · Software Engineer', initials: 'JM' },
+  { name: 'Angelo Poma', role: 'CTO · Software Engineer', initials: 'AP', photo: angelo },
+  { name: 'Jhonatan Tapia', role: 'Backend · Software Engineer', initials: 'JT', photo: jhonatan },
+  { name: 'Julieta María', role: 'Frontend · Software Engineer', initials: 'JM', photo: julieta },
 ]
 
 // image (opcional): coloca el archivo en public/proyectos/ y escribe '/proyectos/nombre.webp'.
@@ -59,6 +67,72 @@ export const projects = [
   { title: 'Panel Logístico', category: 'Microservicios', from: '#121729', to: '#3b4a8a' },
   { title: 'Bot de Pedidos', category: 'Automatización', from: '#2b3a67', to: '#f90038' },
   { title: 'Tienda Virtual', category: 'E-commerce', from: '#1c233f', to: '#5f6b8f' },
+]
+
+// Galería "Proyectos realizados" (6 tarjetas).
+// url: enlace del sitio (null = "Proyecto privado"). image: captura en public/proyectos/ (sin image se dibuja una maqueta).
+// scroll: true → al pasar el ratón la captura baja (ideal para capturas largas de página completa).
+export const gallery = [
+  {
+    title: 'Truck & Heavy Equipment',
+    description: 'Catálogo y venta de maquinaria pesada con buscador por tipo, marca y precio.',
+    country: 'Estados Unidos',
+    category: 'Maquinaria',
+    domain: 'truckheavy.com',
+    url: '#', // reemplazar por la URL real
+    image: '/proyectos/truck-heavy.webp',
+    scroll: true,
+  },
+  {
+    title: 'Metrolytics',
+    description: 'Dashboard inmobiliario con indicadores de mercado, ventas e inventario en tiempo real.',
+    country: 'Chile',
+    category: 'Dashboard',
+    domain: 'metrolytics.app',
+    url: '#',
+    image: '/proyectos/carusel1.jpg',
+    imagePos: 'center',
+  },
+  {
+    title: 'Andes Tours',
+    description: 'Reservas online de excursiones y paquetes turísticos con pagos integrados.',
+    country: 'Perú',
+    category: 'Turismo',
+    domain: 'andestours.pe',
+    url: '#',
+    from: '#0f766e',
+    to: '#1c233f',
+  },
+  {
+    title: 'Clínica Sonríe',
+    description: 'Web y sistema de citas para clínica dental, con recordatorios por WhatsApp.',
+    country: 'Perú',
+    category: 'Salud',
+    domain: 'clinicasonrie.pe',
+    url: '#',
+    from: '#0ea5e9',
+    to: '#1c233f',
+  },
+  {
+    title: 'Ferretería El Constructor',
+    description: 'Sistema de inventario, facturación electrónica y punto de venta multi-tienda.',
+    country: 'Perú',
+    category: 'Sistema',
+    domain: 'erp.elconstructor',
+    url: null,
+    from: '#f90038',
+    to: '#1c233f',
+  },
+  {
+    title: 'Estudio Contable Ríos',
+    description: 'Automatización de reportes contables y portal de documentos para clientes.',
+    country: 'Perú',
+    category: 'Automatización',
+    domain: 'portal.riosconta',
+    url: null,
+    from: '#7c3aed',
+    to: '#1c233f',
+  },
 ]
 
 export const stackPills = [
