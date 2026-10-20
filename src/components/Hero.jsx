@@ -32,8 +32,8 @@ export default function Hero() {
 
           <Reveal delay={260}>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-claro/70 sm:text-lg">
-            Ingeniería de software de punta a punta: diseñamos, desarrollamos, vendemos e
-            implementamos sistemas que funcionan, y los mantenemos actualizados.
+            Desarrollo de páginas web, sistemas POS y software a medida en Lima, Perú:
+            diseñamos, desarrollamos e implementamos sistemas que funcionan, y los mantenemos actualizados.
           </p>
           </Reveal>
 

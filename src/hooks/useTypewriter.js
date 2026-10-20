@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 
 export function useTypewriter(words, { type = 70, erase = 35, hold = 1600 } = {}) {
   const [index, setIndex] = useState(0)
-  const [text, setText] = useState('')
+  // Empieza con la primera palabra completa para que el HTML prerenderizado tenga un <h1> legible.
+  const [text, setText] = useState(words[0])
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {

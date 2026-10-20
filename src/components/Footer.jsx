@@ -58,7 +58,7 @@ export default function Footer() {
       <div className="border-t border-claro/10">
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-2 px-4 py-5 font-mono text-xs text-claro/40 sm:flex-row sm:px-6">
           <p>© {new Date().getFullYear()} {brand.name} · Software Developer. Todos los derechos reservados.</p>
-          <p>build v0.1.0 <span className="text-emerald-400">●</span> online</p>
+         
         </div>
       </div>
     </footer>

@@ -100,7 +100,7 @@ export default function Projects() {
         <Reveal anim="zoom">
           <div
             ref={stageRef}
-            className="relative mt-8 h-[340px] overflow-x-clip [perspective:1200px] [mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/.35)_6%,black_24%,black_76%,rgb(0_0_0/.35)_94%,transparent)] lg:h-[380px]"
+            className="relative mt-8 h-[340px] overflow-x-clip [perspective:1200px] [mask-image:linear-gradient(to_right,transparent,rgb(0_0_0/.35)_6%,black_14%,black_86%,rgb(0_0_0/.35)_94%,transparent)] lg:h-[380px]"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
           >

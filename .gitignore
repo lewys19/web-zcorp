@@ -1,0 +1,4 @@
+node_modules
+# Lo genera el build (local o en GitHub Actions); no se versiona.
+dist
+.ssr

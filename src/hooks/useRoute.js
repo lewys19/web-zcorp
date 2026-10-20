@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
 // Rutas simples por hash: '#/privacidad' → 'privacidad'. Los anclas normales (#contacto) no cuentan como ruta.
-const current = () => (window.location.hash.startsWith('#/') ? window.location.hash.slice(2) : '')
+const current = () =>
+  typeof window !== 'undefined' && window.location.hash.startsWith('#/') ? window.location.hash.slice(2) : ''
 
 export function useRoute() {
   const [route, setRoute] = useState(current)
