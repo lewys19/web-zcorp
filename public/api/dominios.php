@@ -21,6 +21,9 @@ const LIMITE_CONSULTAS = 20;         // por IP…
 const LIMITE_VENTANA = 600;          // …cada 10 minutos
 const TIEMPO_ESPERA = 6;             // segundos por consulta externa
 
+// Que ningún aviso de PHP se mezcle con el JSON (algunos hostings muestran los errores en pantalla).
+ini_set('display_errors', '0');
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
@@ -32,13 +35,42 @@ function responder(int $codigo, array $datos): never
     exit;
 }
 
-function carpeta_temporal(): string
+/**
+ * Carpeta para caché y límite de consultas. En hostings compartidos la temporal del sistema puede estar
+ * restringida: se prueba también ~/tmp (la de tu cuenta cPanel). null = sin caché ni límite, pero el buscador sigue.
+ */
+function carpeta_temporal(): ?string
 {
-    $dir = sys_get_temp_dir() . '/zcorp-dominios';
-    if (!is_dir($dir)) {
-        @mkdir($dir, 0700, true);
+    static $elegida = false;
+    if ($elegida !== false) {
+        return $elegida;
     }
-    return $dir;
+    foreach ([sys_get_temp_dir(), dirname(__DIR__, 2) . '/tmp'] as $base) {
+        $dir = rtrim($base, '/') . '/zcorp-dominios';
+        if ((is_dir($dir) || @mkdir($dir, 0700, true)) && is_writable($dir)) {
+            return $elegida = $dir;
+        }
+    }
+    return $elegida = null;
+}
+
+function escribir(string $nombre, string $contenido): void
+{
+    $dir = carpeta_temporal();
+    if ($dir !== null) {
+        @file_put_contents("$dir/$nombre", $contenido, LOCK_EX);
+    }
+}
+
+function leer(string $nombre, ?int $segundos = null): ?string
+{
+    $dir = carpeta_temporal();
+    $archivo = "$dir/$nombre";
+    if ($dir === null || !is_file($archivo) || ($segundos !== null && filemtime($archivo) <= time() - $segundos)) {
+        return null;
+    }
+    $contenido = @file_get_contents($archivo);
+    return $contenido === false ? null : $contenido;
 }
 
 /** "https://www.Mi-Botica.com" → "mi-botica". null si no es un nombre válido. */
@@ -58,30 +90,26 @@ function limpiar_nombre(string $texto): ?string
 /** Límite simple por IP (archivo en la carpeta temporal). */
 function controlar_limite(): void
 {
-    $ip = $_SERVER['REMOTE_ADDR'] ?? 'desconocida';
-    $archivo = carpeta_temporal() . '/limite-' . hash('sha256', $ip);
+    $nombre = 'limite-' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'desconocida');
     $ahora = time();
-    $marcas = is_file($archivo) ? (json_decode((string) file_get_contents($archivo), true) ?: []) : [];
+    $marcas = json_decode(leer($nombre) ?? '[]', true) ?: [];
     $marcas = array_values(array_filter($marcas, fn($t) => $t > $ahora - LIMITE_VENTANA));
     if (count($marcas) >= LIMITE_CONSULTAS) {
         responder(429, ['error' => 'Hiciste muchas consultas seguidas. Espera unos minutos e inténtalo de nuevo.']);
     }
     $marcas[] = $ahora;
-    file_put_contents($archivo, json_encode($marcas), LOCK_EX);
+    escribir($nombre, json_encode($marcas));
 }
 
 function leer_cache(string $clave, int $segundos): mixed
 {
-    $archivo = carpeta_temporal() . '/cache-' . hash('sha256', $clave);
-    if (is_file($archivo) && filemtime($archivo) > time() - $segundos) {
-        return json_decode((string) file_get_contents($archivo), true);
-    }
-    return null;
+    $contenido = leer('cache-' . hash('sha256', $clave), $segundos);
+    return $contenido === null ? null : json_decode($contenido, true);
 }
 
 function guardar_cache(string $clave, mixed $valor): void
 {
-    file_put_contents(carpeta_temporal() . '/cache-' . hash('sha256', $clave), json_encode($valor), LOCK_EX);
+    escribir('cache-' . hash('sha256', $clave), json_encode($valor));
 }
 
 /** GET con tiempo límite. Devuelve [código HTTP, cuerpo]; código 0 si falló la conexión. */

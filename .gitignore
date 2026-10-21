@@ -2,3 +2,5 @@ node_modules
 # Lo genera el build (local o en GitHub Actions); no se versiona.
 dist
 .ssr
+# Caché local del buscador de dominios (php -S)
+tmp
