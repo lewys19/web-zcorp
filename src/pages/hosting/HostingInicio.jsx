@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Reveal from '../../components/Reveal'
 import IconoHosting from '../../components/hosting/IconoHosting'
-import { comparativa, extensiones, hostingWhatsapp, incluidos, planesHosting, preguntasHosting, razones } from '../../data/hosting'
+import { comparativa, extensiones, hostingWhatsapp, incluidos, planesHosting, preciosDominio, preguntasHosting, razones } from '../../data/hosting'
 
 const soles = (n) => `S/ ${Number.isInteger(n) ? n : n.toFixed(2)}`
 
@@ -95,26 +95,43 @@ function Portada() {
   )
 }
 
-/** Consultar un dominio: arma el mensaje y abre WhatsApp (sin buscador automático por ahora). */
+/** Buscador de dominios: consulta /api/dominios.php (registros oficiales) y muestra el resultado aquí mismo. */
 function Dominio() {
   const [nombre, setNombre] = useState('')
-  const [extension, setExtension] = useState(extensiones[0])
-  const limpio = nombre.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\..*$/, '')
+  const [estado, setEstado] = useState({ cargando: false, error: null, datos: null })
+
+  async function buscar(texto) {
+    const consulta = texto.trim()
+    if (!consulta) return
+    setEstado({ cargando: true, error: null, datos: null })
+    const control = new AbortController()
+    const limite = setTimeout(() => control.abort(), 45000)
+    try {
+      const r = await fetch(`/api/dominios.php?nombre=${encodeURIComponent(consulta)}`, { signal: control.signal })
+      const datos = await r.json().catch(() => ({}))
+      if (!r.ok) throw new Error(datos.error ?? 'No pudimos consultar ahora. Inténtalo de nuevo.')
+      setEstado({ cargando: false, error: null, datos })
+    } catch (e) {
+      const mensaje = e.name === 'AbortError' ? 'La consulta tardó demasiado. Inténtalo de nuevo.' : e.message
+      setEstado({ cargando: false, error: mensaje, datos: null })
+    } finally {
+      clearTimeout(limite)
+    }
+  }
+
+  const { cargando, error, datos } = estado
+  const libres = datos?.resultados.filter((r) => r.estado === 'libre') ?? []
+  const sugerencias = datos && libres.length === 0 ? [`${datos.nombre}peru`, `mi${datos.nombre}`, `${datos.nombre}online`] : []
 
   return (
-    <section id="dominio" className="relative z-10 -mt-24 px-4 sm:px-6">
+    <section id="dominio" className="relative z-10 -mt-24 scroll-mt-32 px-4 sm:px-6">
       <Reveal anim="zoom" className="mx-auto max-w-4xl rounded-2xl bg-white p-6 shadow-2xl shadow-host-noche/15 ring-1 ring-host-noche/5 sm:p-10">
-        <h2 className="text-center text-2xl font-semibold tracking-tight sm:text-3xl">Encuentra tu plan y registra tu dominio</h2>
-        <p className="mt-2 text-center text-sm text-azul/60">Escribe el nombre que quieres y te confirmamos si está disponible y su precio.</p>
+        <h2 className="text-center text-2xl font-semibold tracking-tight sm:text-3xl">Busca tu dominio</h2>
+        <p className="mt-2 text-center text-sm text-azul/60">Consultamos el registro oficial en tiempo real y te mostramos el precio al instante.</p>
         <form
           onSubmit={(e) => {
             e.preventDefault()
-            if (!limpio) return
-            window.open(
-              hostingWhatsapp(`Hola Z-CORP, quiero registrar el dominio ${limpio}${extension}. ¿Está disponible?`),
-              '_blank',
-              'noopener,noreferrer',
-            )
+            buscar(nombre)
           }}
           className="mt-7 flex flex-col gap-2 rounded-xl bg-host-fondo p-2 ring-1 ring-host-noche/10 sm:flex-row"
         >
@@ -125,40 +142,107 @@ function Dominio() {
             id="dominio-nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            placeholder="tuempresa"
-            maxLength={63}
+            placeholder="Escribe el nombre: mibotica"
+            maxLength={100}
+            autoComplete="off"
             className="min-w-0 flex-1 rounded-lg bg-white px-4 py-3 outline-none ring-host-azul focus:ring-2"
           />
-          <label className="sr-only" htmlFor="dominio-extension">
-            Extensión
-          </label>
-          <select
-            id="dominio-extension"
-            value={extension}
-            onChange={(e) => setExtension(e.target.value)}
-            className="rounded-lg bg-white px-3 py-3 font-mono outline-none ring-host-azul focus:ring-2"
-          >
-            {extensiones.map((x) => (
-              <option key={x}>{x}</option>
-            ))}
-          </select>
           <button
             type="submit"
-            disabled={!limpio}
+            disabled={!nombre.trim() || cargando}
             className="flex items-center justify-center gap-2 rounded-lg bg-host-azul px-6 py-3 font-mono text-sm font-bold text-white transition hover:bg-host-azul-2 disabled:opacity-50"
           >
-            <IconoHosting nombre="buscar" className="h-4 w-4" /> Consultar
+            <IconoHosting nombre="buscar" className="h-4 w-4" /> {cargando ? 'Buscando…' : 'Buscar'}
           </button>
         </form>
-        <div className="mt-4 flex flex-wrap justify-center gap-2 font-mono text-xs">
-          {extensiones.map((x) => (
-            <span key={x} className="rounded-full bg-host-fondo px-3 py-1 text-host-azul ring-1 ring-host-azul/20">
-              {x}
-            </span>
-          ))}
+
+        <div aria-live="polite" className="mt-5">
+          {cargando && (
+            <ul className="space-y-2" aria-label="Buscando">
+              {extensiones.map((x) => (
+                <li key={x} className="h-14 animate-pulse rounded-xl bg-host-fondo" />
+              ))}
+            </ul>
+          )}
+
+          {error && <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+
+          {datos && (
+            <ul className="space-y-2">
+              {datos.resultados.map((r) => (
+                <ResultadoDominio key={r.dominio} {...r} />
+              ))}
+            </ul>
+          )}
+
+          {sugerencias.length > 0 && (
+            <div className="mt-4 text-sm">
+              <span className="text-azul/60">Prueba con otro nombre: </span>
+              {sugerencias.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setNombre(s)
+                    buscar(s)
+                  }}
+                  className="mr-2 mb-2 rounded-full bg-host-fondo px-3 py-1 font-mono text-xs text-host-azul ring-1 ring-host-azul/20 hover:bg-host-azul hover:text-white"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {!cargando && !datos && !error && (
+            <div className="flex flex-wrap justify-center gap-2 font-mono text-xs">
+              {extensiones.map((x) => (
+                <span key={x} className="rounded-full bg-host-fondo px-3 py-1 text-host-azul ring-1 ring-host-azul/20">
+                  {x} · {soles(preciosDominio[x])}/año
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </Reveal>
     </section>
+  )
+}
+
+const ESTADOS = {
+  libre: { texto: 'Disponible', icono: '✓', clase: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' },
+  ocupado: { texto: 'No disponible', icono: '✗', clase: 'bg-gray-100 text-gray-500 ring-gray-400/20' },
+  desconocido: { texto: 'No pudimos verificar', icono: '?', clase: 'bg-amber-50 text-amber-700 ring-amber-600/20' },
+}
+
+function ResultadoDominio({ dominio, extension, estado }) {
+  const e = ESTADOS[estado] ?? ESTADOS.desconocido
+  const precio = preciosDominio[extension]
+  const libre = estado === 'libre'
+  return (
+    <li className={`flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl px-4 py-3 ring-1 ${libre ? 'bg-white ring-host-azul/30' : 'bg-host-fondo/60 ring-host-noche/5'}`}>
+      <span className={`min-w-0 flex-1 truncate font-mono font-bold ${libre ? '' : 'text-azul/50'}`}>{dominio}</span>
+      <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ${e.clase}`}>
+        <span aria-hidden>{e.icono}</span> {e.texto}
+      </span>
+      {estado !== 'ocupado' && (
+        <>
+          <span className="font-mono text-sm font-bold">{soles(precio)}/año</span>
+          <a
+            href={hostingWhatsapp(
+              libre
+                ? `Hola Z-CORP, quiero registrar el dominio ${dominio} (${soles(precio)}/año).`
+                : `Hola Z-CORP, ¿está disponible el dominio ${dominio}?`,
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`rounded-md px-4 py-2 font-mono text-xs font-bold text-white transition ${libre ? 'bg-host-azul hover:bg-host-azul-2' : 'bg-host-noche hover:bg-host-noche-2'}`}
+          >
+            {libre ? 'Lo quiero' : 'Consultar'}
+          </a>
+        </>
+      )}
+    </li>
   )
 }
 

@@ -77,6 +77,10 @@ export const preguntasHosting = [
 
 export const extensiones = ['.com', '.pe', '.com.pe', '.net', '.org']
 
+// Precio de venta por año, en soles. ⚠️ PRECIOS DE EJEMPLO: ajústalos según tu costo mayorista + tu margen.
+// Las extensiones deben coincidir con EXTENSIONES de public/api/dominios.php.
+export const preciosDominio = { '.com': 65, '.pe': 140, '.com.pe': 140, '.net': 75, '.org': 75 }
+
 export const areaClientes = [
   { titulo: 'Entrar a cPanel', detalle: 'Tu panel de control', href: '/cpanel', icono: 'panel' },
   { titulo: 'Webmail', detalle: 'Revisa tus correos', href: '/webmail', icono: 'correo' },
