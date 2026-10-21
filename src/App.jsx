@@ -14,12 +14,37 @@ import Loader from './components/Loader'
 import BackToTop from './components/BackToTop'
 import WhatsAppButton from './components/WhatsAppButton'
 import Privacy from './pages/Privacy'
+import HostingLayout from './components/hosting/HostingLayout'
+import HostingAyuda from './pages/hosting/HostingAyuda'
+import HostingInicio from './pages/hosting/HostingInicio'
+import HostingTerminos from './pages/hosting/HostingTerminos'
 import { useEffect } from 'react'
 import { useRoute } from './hooks/useRoute'
+import { rutaActual } from './lib/ruta'
 
 const pages = { privacidad: Privacy }
 
-export default function App() {
+// Páginas con ruta propia (cada una se prerenderiza como su propio HTML).
+const paginasHosting = {
+  '/hosting': HostingInicio,
+  '/hosting/ayuda': HostingAyuda,
+  '/hosting/terminos': HostingTerminos,
+}
+
+// ruta: en el navegador se lee de la URL; al prerenderizar la pasa scripts/prerender.js.
+export default function App({ ruta = rutaActual() }) {
+  const Hosting = paginasHosting[ruta]
+  if (Hosting) {
+    return (
+      <HostingLayout ruta={ruta}>
+        <Hosting />
+      </HostingLayout>
+    )
+  }
+  return <Portada />
+}
+
+function Portada() {
   const route = useRoute()
   const Page = pages[route]
 

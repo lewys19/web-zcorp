@@ -14,7 +14,7 @@ export default function LegalPage({ tag, title, updated, children }) {
           [&_li]:mt-2 [&_p]:mt-4 [&_p]:leading-relaxed
           [&_strong]:text-azul [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:pl-6"
       >
-        <a href="#inicio" className="font-mono no-underline!">← volver al inicio</a>
+        <a href="/#inicio" className="font-mono no-underline!">← volver al inicio</a>
         <p className="mt-10! font-mono text-[0.65rem] tracking-[0.3em] text-rojo uppercase">// {tag}</p>
         <h1 className="mt-3 text-[1.6rem] font-semibold tracking-tight text-azul sm:text-[2.1rem]">{title}</h1>
         <p className="font-mono text-[0.65rem] text-azul/50">Última actualización: {updated}</p>

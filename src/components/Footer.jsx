@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
 
         <FooterCol title="acceso" items={navLinks.map((l) => [l.label, l.href])} />
-        <FooterCol title="servicios" items={services.map((s) => [s.title, '#servicios'])} />
+        <FooterCol title="servicios" items={services.map((s) => [s.title, '/#servicios'])} />
 
         <div>
           <h4 className="font-mono text-xs font-bold tracking-widest text-rojo uppercase">contacto</h4>

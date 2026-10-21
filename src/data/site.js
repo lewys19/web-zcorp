@@ -28,12 +28,14 @@ export const socials = [
   { name: 'WhatsApp', icon: 'whatsapp', href: whatsappUrl() },
 ]
 
+// Rutas absolutas (/#…): funcionan desde la portada y desde las páginas de hosting.
 export const navLinks = [
-  { label: 'inicio', href: '#inicio' },
-  { label: 'nosotros', href: '#nosotros' },
-  { label: 'servicios', href: '#servicios' },
-  { label: 'proyectos', href: '#proyectos' },
-  { label: 'contacto', href: '#contacto' },
+  { label: 'inicio', href: '/#inicio' },
+  { label: 'nosotros', href: '/#nosotros' },
+  { label: 'servicios', href: '/#servicios' },
+  { label: 'proyectos', href: '/#proyectos' },
+  { label: 'hosting', href: '/hosting/' },
+  { label: 'contacto', href: '/#contacto' },
 ]
 
 export const heroWords = [

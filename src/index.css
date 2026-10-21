@@ -6,6 +6,14 @@
   --color-azul: #1c233f;
   --color-azul-900: #121729;
 
+  /* Sección de hosting: misma tipografía, paleta propia para distinguirla */
+  --color-host-noche: #0b1437;
+  --color-host-noche-2: #16235a;
+  --color-host-azul: #2563eb;
+  --color-host-azul-2: #1d4ed8;
+  --color-host-amarillo: #fbbf24;
+  --color-host-fondo: #f4f7fe;
+
   --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 
