@@ -2,6 +2,21 @@
 <html lang="es-PE" class="is-loading">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Pantalla de carga solo al entrar desde fuera (o escribiendo la dirección), al recargar o al pulsar el logo.
+      // Si se llega desde otra página del sitio (p. ej. el menú de /hosting/), se entra directo sin pantalla de carga.
+      (function () {
+        var html = document.documentElement
+        if (!html.classList.contains('is-loading')) return
+        var logo = false
+        try { logo = sessionStorage.getItem('zc-loader') === '1'; sessionStorage.removeItem('zc-loader') } catch (e) {}
+        var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0]
+        var recarga = nav && nav.type === 'reload'
+        var desdeElSitio = false
+        try { desdeElSitio = !!document.referrer && new URL(document.referrer).origin === location.origin } catch (e) {}
+        if (desdeElSitio && !logo && !recarga) html.classList.remove('is-loading')
+      })()
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Z-CORP | Páginas Web, Sistemas POS y Software en Lima, Perú</title>
     <meta name="description" content="Desarrollo de páginas web, sistemas POS, software a medida y automatizaciones para empresas en Lima y todo el Perú. Cotiza tu proyecto por WhatsApp." />

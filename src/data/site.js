@@ -31,12 +31,12 @@ export const socials = [
 // Rutas absolutas (/#…): funcionan desde la portada y desde las páginas de hosting.
 // destacado: se muestra al final del menú como botón (pastilla oscura).
 export const navLinks = [
-  { label: 'inicio', href: '/#inicio' },
-  { label: 'nosotros', href: '/#nosotros' },
-  { label: 'servicios', href: '/#servicios' },
-  { label: 'proyectos', href: '/#proyectos' },
-  { label: 'contacto', href: '/#contacto' },
-  { label: 'hosting', href: '/hosting/', destacado: true },
+  { label: 'Inicio', href: '/#inicio' },
+  { label: 'Nosotros', href: '/#nosotros' },
+  { label: 'Proyectos', href: '/#proyectos' },
+  { label: 'Servicios', href: '/#servicios' },
+  { label: 'Contacto', href: '/#contacto' },
+  { label: 'Hosting', href: '/hosting/', destacado: true },
 ]
 
 export const heroWords = [

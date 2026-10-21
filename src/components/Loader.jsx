@@ -14,9 +14,13 @@ export default function Loader() {
   const [pct, setPct] = useState(0)
   const [logs, setLogs] = useState([])
   const [leaving, setLeaving] = useState(false)
-  const [gone, setGone] = useState(false)
+  // El script de index.html quita "is-loading" cuando no toca mostrar la pantalla (llegada desde otra página del sitio).
+  const [gone, setGone] = useState(
+    () => typeof document !== 'undefined' && !document.documentElement.classList.contains('is-loading'),
+  )
 
   useEffect(() => {
+    if (gone) return
     const timers = timeline.map(([t, p, msg]) =>
       setTimeout(() => {
         setPct(p)
@@ -35,6 +39,7 @@ export default function Loader() {
 
   return (
     <div
+      data-loader
       className={`grid-bg fixed inset-0 z-[100] grid place-items-center bg-azul px-6 font-mono text-claro transition duration-500 ${leaving ? 'pointer-events-none -translate-y-4 opacity-0' : ''}`}
       role="status"
       aria-label={`Cargando ${pct}%`}

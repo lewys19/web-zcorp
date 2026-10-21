@@ -8,7 +8,7 @@ const MENSAJE = '¿QUÉ TAL ZCLAU?'
 export default function RobotZclau() {
   return (
     <div
-      className="pointer-events-none absolute bottom-8 right-[calc(100%-1rem)] z-10 hidden w-[150px] sm:block lg:w-[180px]"
+      className="pointer-events-none absolute bottom-8 right-[calc(100%+0.5rem)] z-10 xl:right-[calc(100%+1.5rem)] hidden w-[120px] sm:block lg:w-[144px]"
       aria-hidden
     >
       <div className="animate-robot-float relative">
@@ -21,7 +21,7 @@ export default function RobotZclau() {
 
         {/* Pantallita del pecho con letrero que recorre */}
         <div className="robot-screen absolute left-[36.5%] top-[73%] flex h-[14.7%] w-[27.8%] items-center overflow-hidden rounded-[22%] bg-[#05121c]">
-          <span className="animate-robot-ticker whitespace-nowrap font-mono text-[11px] font-bold leading-none text-[#3be3ff] [text-shadow:0_0_6px_#3be3ff] lg:text-[13px]">
+          <span className="animate-robot-ticker whitespace-nowrap font-mono text-[9px] font-bold leading-none text-[#3be3ff] [text-shadow:0_0_6px_#3be3ff] lg:text-[10.5px]">
             {MENSAJE}
           </span>
         </div>

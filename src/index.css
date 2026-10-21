@@ -116,7 +116,8 @@ body { @apply bg-claro text-base text-azul font-sans antialiased; }
 html.is-loading { overflow: hidden; }
 html.is-loading .reveal.is-visible { opacity: 0; transform: var(--reveal-from); }
 
-/* Pantalla de carga */
+/* Pantalla de carga (el HTML prerenderizado la trae; se oculta si index.html decidió no mostrarla) */
+html:not(.is-loading) [data-loader] { display: none; }
 @keyframes dots { 0% { content: '' } 25% { content: '.' } 50% { content: '..' } 75%, 100% { content: '...' } }
 .loading-dots::after { content: ''; animation: dots 1s steps(1) infinite; }
 
