@@ -29,20 +29,21 @@ export const socials = [
 ]
 
 // Rutas absolutas (/#…): funcionan desde la portada y desde las páginas de hosting.
+// destacado: se muestra al final del menú como botón (pastilla oscura).
 export const navLinks = [
   { label: 'inicio', href: '/#inicio' },
   { label: 'nosotros', href: '/#nosotros' },
   { label: 'servicios', href: '/#servicios' },
   { label: 'proyectos', href: '/#proyectos' },
-  { label: 'hosting', href: '/hosting/' },
   { label: 'contacto', href: '/#contacto' },
+  { label: 'hosting', href: '/hosting/', destacado: true },
 ]
 
 export const heroWords = [
-  'software',
-  
-  'automatizacion',
-  'microservicios',
+  'sistemas de gestión',
+  'reportes automatizados',
+  'tiendas virtuales',
+  'análisis de ventas',
   'desarrollo web',
 ]
 
@@ -149,24 +150,35 @@ export const stackPills = [
 export const plans = [
   {
     name: 'Emprende',
-    price: 'S/ 1,490',
+    price: 'S/ 600',
     note: 'pago único',
-    features: ['Landing page responsive', 'Formulario + WhatsApp', 'Dominio y hosting 1 año', 'SEO básico', 'Entrega en 2 semanas'],
+    features: ['Páginas web corporativas', 'Landing page responsive', 'Formulario + WhatsApp', 'Dominio y hosting 1 año', 'SEO básico', 'Entrega en 2 semanas', 'Soporte y capacitación incluidos'],
     cta: 'Elegir Emprende',
   },
   {
     name: 'Pro',
-    price: 'S/ 3,900',
+    price: 'S/ 2,500',
+    desde: true, // muestra "desde" antes del precio
     note: 'pago único',
     featured: true,
-    features: ['Web a medida multipágina', 'Panel administrable', 'Pasarela de pagos', 'Integraciones (API, CRM)', 'Soporte 3 meses'],
+    features: ['Tiendas virtuales', 'Sistemas de gestión', 'Puntos de venta (POS)', 'Software a medida', 'Sistemas de integración estadística', 'Sistemas de inventario', 'Sistemas de reservas', 'Soporte y capacitación incluidos'],
     cta: 'Elegir Pro',
   },
   {
     name: 'Business',
-    price: 'A medida',
+    price: 'Consultar',
     note: 'cotización',
-    features: ['Sistema informático completo', 'Arquitectura de microservicios', 'Automatización de procesos', 'Implementación y capacitación', 'Actualizaciones continuas'],
+    features: [
+      'Integración de IA para empresas',
+      'Lectura de archivos en gran volumen',
+      'IA con tus datos (RAG y LLM)',
+      'Modelos de IA aplicados a tu negocio',
+      'Automatización de procesos',
+      'Análisis estadístico avanzado y predictivo',
+      'Detección de errores e inconsistencias',
+      'E-commerce con pasarelas de pago',
+      'Soporte y capacitación incluidos',
+    ],
     cta: 'Cotizar Business',
   },
 ]

@@ -23,6 +23,7 @@ export default function Pricing() {
               )}
               <p className="font-mono text-sm text-azul/60">{p.name}</p>
               <p className="mt-3 text-4xl font-semibold tracking-tight">
+                {p.desde && <span className="mr-2 font-mono text-xs font-normal text-azul/50">desde</span>}
                 {p.price}
                 <span className="ml-2 font-mono text-xs font-normal text-azul/50">/{p.note}</span>
               </p>

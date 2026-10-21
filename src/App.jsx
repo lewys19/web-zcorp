@@ -44,16 +44,36 @@ export default function App({ ruta = rutaActual() }) {
   return <Portada />
 }
 
+// Baja a la sección del ancla y quita el # de la URL (replaceState no dispara hashchange).
+function irASeccion(hash) {
+  document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView()
+  history.replaceState(null, '', window.location.pathname + window.location.search)
+}
+
 function Portada() {
   const route = useRoute()
   const Page = pages[route]
 
-  // Al volver de una página legal con un ancla (#contacto), baja a esa sección.
+  // Al llegar con un ancla (desde hosting o una página legal: /#contacto), baja a esa sección.
   useEffect(() => {
-    if (!Page && window.location.hash.length > 1) {
-      document.querySelector(window.location.hash)?.scrollIntoView()
-    }
+    if (!Page && window.location.hash.length > 1) irASeccion(window.location.hash)
   }, [Page])
+
+  // Los enlaces a secciones (/#servicios, #contacto) bajan a la sección sin dejar el # en la URL.
+  useEffect(() => {
+    const onClick = (e) => {
+      const a = e.target.closest?.('a[href]')
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || a.target === '_blank') return
+      const url = new URL(a.href)
+      const mismaPagina = url.origin === window.location.origin && url.pathname === window.location.pathname
+      // Desde una página legal (#/privacidad) se deja navegar normal: el efecto de arriba baja a la sección.
+      if (!mismaPagina || !url.hash || url.hash.startsWith('#/') || window.location.hash.startsWith('#/')) return
+      e.preventDefault()
+      irASeccion(url.hash)
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
 
   return (
     <>

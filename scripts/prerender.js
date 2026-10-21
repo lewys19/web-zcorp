@@ -41,7 +41,7 @@ function datosEstructurados(ruta, titulo) {
         ...negocio,
         description: 'Desarrollo de páginas web, sistemas POS, software a medida y automatizaciones en Lima, Perú.',
         areaServed: { '@type': 'Country', name: 'Perú' },
-        priceRange: 'S/ 1,490 - S/ 3,900+',
+        priceRange: 'S/ 600 - S/ 2,500+',
         sameAs: socials.filter((s) => s.icon !== 'whatsapp').map((s) => s.href),
         makesOffer: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.text } })),
       },

@@ -3,7 +3,8 @@ import phoneSite from '../assets/phone-site.webp'
 
 // Celular con la captura de una web que baja en bucle.
 // Para cambiarla, reemplaza src/assets/phone-site.webp (captura vertical, a lo ancho del celular).
-export default function PhoneMock() {
+// children: adornos posicionados respecto al celular (p. ej. el robot del hero).
+export default function PhoneMock({ children }) {
   const screenRef = useRef(null)
   const siteRef = useRef(null)
 
@@ -31,6 +32,7 @@ export default function PhoneMock() {
           </div>
         </div>
       </div>
+      {children}
     </div>
   )
 }

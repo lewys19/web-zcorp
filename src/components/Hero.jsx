@@ -3,6 +3,7 @@ import { useTypewriter } from '../hooks/useTypewriter'
 import PhoneMock from './PhoneMock'
 import Reveal from './Reveal'
 import Ribbon from './Ribbon'
+import RobotZclau from './RobotZclau'
 
 export default function Hero() {
   const word = useTypewriter(heroWords)
@@ -20,20 +21,21 @@ export default function Hero() {
           <Reveal anim="left" delay={120}>
           <h1 className="glitch mt-6 text-4xl font-semibold leading-[1.1] tracking-tight transition sm:text-5xl lg:text-6xl">
             Construimos
-            <br />
-            <span className="font-mono text-[0.88em] font-bold text-rojo sm:text-[1em]">
+            {/* Tamaño pensado para que la frase más larga ("reportes automatizados") quepa en una línea
+                desde sm; en celular se reservan dos líneas. Así el hero no salta al cambiar de palabra. */}
+            <span className="block min-h-[2lh] font-mono text-[0.88em] font-bold text-rojo sm:min-h-0 sm:text-[0.85em] lg:text-[0.6em] xl:text-[0.72em]">
               {word}
               <span className="caret">_</span>
             </span>
-            <br />
             para tu negocio.
           </h1>
           </Reveal>
 
           <Reveal delay={260}>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-claro/70 sm:text-lg">
-            Desarrollo de páginas web, sistemas POS y software a medida en Lima, Perú:
-            diseñamos, desarrollamos e implementamos sistemas que funcionan, y los mantenemos actualizados.
+            Te acompañamos en cada etapa de tu proyecto, desde el análisis de tus necesidades y la definición
+            de requerimientos hasta el desarrollo y la puesta en funcionamiento de la solución. Agenda una
+            asesoría gratuita y descubre las alternativas tecnológicas que tenemos para ti.
           </p>
           </Reveal>
 
@@ -61,7 +63,9 @@ export default function Hero() {
         </div>
 
         <Reveal anim="right" delay={300}>
-          <PhoneMock />
+          <PhoneMock>
+            <RobotZclau />
+          </PhoneMock>
         </Reveal>
       </div>
 
