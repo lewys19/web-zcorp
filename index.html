@@ -25,6 +25,19 @@
       function gtag(){dataLayer.push(arguments)}
       gtag('js', new Date())
       gtag('config', 'G-G18T50NGYE')
+
+      // Conversiones: avisa a Analytics cuando alguien pulsa WhatsApp o "Cotizar".
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest && e.target.closest('a, button')
+        if (!el) return
+        var href = (el.getAttribute && el.getAttribute('href')) || ''
+        var texto = (el.textContent || '').toLowerCase()
+        if (/wa\.me|api\.whatsapp|whatsapp/i.test(href)) {
+          gtag('event', 'contacto_whatsapp', { metodo: 'whatsapp' })
+        } else if (texto.indexOf('cotiza') !== -1) {
+          gtag('event', 'click_cotizar', { ubicacion: 'web' })
+        }
+      })
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
